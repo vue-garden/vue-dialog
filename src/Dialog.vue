@@ -130,7 +130,6 @@ export default {
       return new Promise((resolve) => {
         ANIME_EVENTS.forEach((e) => {
           el.addEventListener(e, () => {
-            console.log(1, cls)
             this.removeCssClass(el, 'animated')
             this.removeCssClass(el, cls)
             resolve()
@@ -154,6 +153,7 @@ export default {
       if (this.isHidden) return
       this.anime(this.$el, 'fadeOut').then(() => {
         this.$el.style.display = 'none'
+        this.resumeBodyOverflow()
         this.$emit('input', false)
         this.isHidden = true
       })
