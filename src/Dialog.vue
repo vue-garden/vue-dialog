@@ -1,13 +1,13 @@
 <template>
 <div class="hsy-dialog">
-  <div class="mask" :style="{backgroundColor: maskColor}"></div>
+  <div class="mask" :style="{backgroundColor: maskColor}" @click="maskClicked"></div>
   <div class="main">
     <div class="inner">
       <div class="title">
         <div class="content">
           <slot name="title"></slot>
         </div>
-        <div class="btnClose" @click="hide"></div>
+        <div class="btnClose" @click="hide" v-if="closeButton"></div>
       </div>
       <div class="body">
         <slot name="body"></slot>
@@ -157,6 +157,10 @@ export default {
         this.$emit('input', false)
         this.isHidden = true
       })
+    },
+    maskClicked() {
+      if (!this.clickMask2Close) return
+      this.hide()
     }
   }
 }

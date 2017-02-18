@@ -54,9 +54,11 @@ export default {
 
 ## Props
 
-| Prop  | Description                      | Type    | Accepted Values | Default |
-|:------|:---------------------------------|:--------|:----------------|:--------|
-| value | whether dialog is visible or not | Boolean | --              | false   |
+| Prop            | Description                                     | Type    | Accepted Values | Default |
+|:----------------|:------------------------------------------------|:--------|:----------------|:--------|
+| value           | whether dialog is visible or not                | Boolean | --              | false   |
+| closeButton     | whether close button is visible or not          | Boolean | --              | true    |
+| clickMask2Close | if dialog should be closed when mask is clicked | Boolean | --              | true    |
 
 ## Screenshot
 

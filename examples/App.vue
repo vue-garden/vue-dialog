@@ -1,7 +1,7 @@
 <template>
 <div style="height: 1000px;">
   <button @click="visible = true">click to open dialog</button>
-  <hsy-dialog class="test" v-model="visible">
+  <hsy-dialog class="test" v-model="visible" :clickMask2Close="false">
     <div slot="title">Message</div>
     <div slot="body" style="width: 300px;">
       This is your message content.
