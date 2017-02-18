@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App'
-import Msg from 'main'
+import Dialog from 'main'
 
-Vue.use(Msg)
+Vue.use(Dialog)
 
 new Vue({
   el: '#app',

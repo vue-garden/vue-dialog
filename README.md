@@ -13,7 +13,7 @@ npm install hsy-vue-dialog -S
 then import it into your project, add below code into your `main.js`:
 
 ```js
-import Dialog from 'hsy-dialog-tooltip'
+import Dialog from 'hsy-vue-dialog'
 
 Vue.use(Dialog)
 ```
@@ -61,4 +61,4 @@ export default {
 ## Screenshot
 
 <img src="http://og9g58alt.bkt.clouddn.com/dialog1.png" width="500">
-<img src="http://og9g58alt.bkt.clouddn.com/dialog2.png" width="500">
+<img src="http://og9g58alt.bkt.clouddn.com/dialog2.png" width="430">
