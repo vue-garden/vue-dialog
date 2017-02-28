@@ -1,5 +1,5 @@
 <template>
-<div style="height: 1000px;">
+<div style="height: 1000px; width: 200px; left: 100px; position: absolute;">
   <button @click="visible = true">click to open dialog</button>
   <hsy-dialog class="test" v-model="visible" :clickMask2Close="false">
     <div slot="title">Message</div>

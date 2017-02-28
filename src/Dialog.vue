@@ -28,8 +28,8 @@ export default {
       msg: 'hello vue-component!',
       width: '',
       height: '',
-      bodyOverflowX: '',
-      bodyOverflowY: '',
+      parentOverflowX: '',
+      parentOverflowY: '',
       isHidden: true
     }
   },
@@ -46,6 +46,10 @@ export default {
       type: Boolean,
       default: true
     },
+    wholeWindow: {
+      type: Boolean,
+      default: true
+    },
     value: {
       type: Boolean,
       default: false
@@ -54,6 +58,35 @@ export default {
   computed: {
     mainEl() {
       return this.$el.querySelector('.main')
+    },
+    parentEl() {
+      let parent = this.$el.parentNode
+      while (parent) {
+        if (parent === document.body) {
+          break
+        }
+        let style = window.getComputedStyle(parent)
+        let position = style.getPropertyValue('position')
+        if (position === 'relative' || position === 'absolute') {
+          break
+        }
+        parent = parent.parentNode
+      }
+      return parent
+    },
+    parentSize: {
+      cache: false,
+      get() {
+        if (this.wholeWindow) {
+          let width = document.documentElement.clientWidth
+          let height = document.documentElement.clientHeight
+          return {
+            width,
+            height
+          }
+        }
+        return this.parentEl.getBoundingClientRect()
+      }
     }
   },
   watch: {
@@ -89,8 +122,9 @@ export default {
       return rect
     },
     updateContainerSize() {
-      this.$el.style.width = document.documentElement.clientWidth + 'px'
-      this.$el.style.height = document.documentElement.clientHeight + 'px'
+      let size = this.parentSize
+      this.$el.style.width = size.width + 'px'
+      this.$el.style.height = size.height + 'px'
     },
     updateMainSize() {
       let mainEl = this.$el.querySelector('.main')
@@ -99,17 +133,17 @@ export default {
       mainEl.style.left = '0px'
       mainEl.style.right = '0px'
     },
-    captureBodyOverflow() {
-      let style = window.getComputedStyle(document.body)
-      this.bodyOverflowX = style.getPropertyValue('overflowX')
-      this.bodyOverflowY = style.getPropertyValue('overflowY')
+    captureParentOverflow() {
+      let style = window.getComputedStyle(this.parentEl)
+      this.parentOverflowX = style.getPropertyValue('overflowX')
+      this.parentOverflowY = style.getPropertyValue('overflowY')
     },
-    forceBodyOverflow() {
-      document.body.style.overflow = 'hidden'
+    forceParentOverflow() {
+      this.parentEl.overflow = 'hidden'
     },
-    resumeBodyOverflow() {
-      document.body.style.overflowX = this.bodyOverflowX
-      document.body.style.overflowY = this.bodyOverflowY
+    resumeParentOverflow() {
+      this.parentEl.style.overflowX = this.bodyOverflowX
+      this.parentEl.style.overflowY = this.bodyOverflowY
     },
     addCssClass(el, cls) {
       let clsList = el.className.split(' ')
@@ -141,8 +175,8 @@ export default {
     },
     show() {
       this.$el.style.display = 'block'
-      this.captureBodyOverflow()
-      this.forceBodyOverflow()
+      this.captureParentOverflow()
+      this.forceParentOverflow()
       this.updateContainerSize()
       this.updateMainSize()
       this.anime(this.mainEl, 'fadeInDown')
@@ -153,7 +187,7 @@ export default {
       if (this.isHidden) return
       this.anime(this.$el, 'fadeOut').then(() => {
         this.$el.style.display = 'none'
-        this.resumeBodyOverflow()
+        this.resumeParentOverflow()
         this.$emit('input', false)
         this.isHidden = true
       })
@@ -161,6 +195,12 @@ export default {
     maskClicked() {
       if (!this.clickMask2Close) return
       this.hide()
+    }
+  },
+  mounted() {
+    if (this.wholeWindow) {
+      this.$el.parentNode.removeChild(this.$el)
+      document.body.appendChild(this.$el)
     }
   }
 }
