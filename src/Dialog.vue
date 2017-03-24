@@ -125,6 +125,7 @@ export default {
       let size = this.parentSize
       this.$el.style.width = size.width + 'px'
       this.$el.style.height = size.height + 'px'
+      this.$el.style.top = window.scrollY + 'px'
     },
     updateMainSize() {
       let mainEl = this.$el.querySelector('.main')
@@ -134,16 +135,17 @@ export default {
       mainEl.style.right = '0px'
     },
     captureParentOverflow() {
+      console.log(this.parentEl)
       let style = window.getComputedStyle(this.parentEl)
       this.parentOverflowX = style.getPropertyValue('overflowX')
       this.parentOverflowY = style.getPropertyValue('overflowY')
     },
     forceParentOverflow() {
-      this.parentEl.overflow = 'hidden'
+      this.parentEl.style.overflow = 'hidden'
     },
     resumeParentOverflow() {
-      this.parentEl.style.overflowX = this.bodyOverflowX
-      this.parentEl.style.overflowY = this.bodyOverflowY
+      this.parentEl.style.overflowX = this.parentOverflowX
+      this.parentEl.style.overflowY = this.parentOverflowY
     },
     addCssClass(el, cls) {
       let clsList = el.className.split(' ')
