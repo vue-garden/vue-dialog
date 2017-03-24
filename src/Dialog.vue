@@ -135,7 +135,6 @@ export default {
       mainEl.style.right = '0px'
     },
     captureParentOverflow() {
-      console.log(this.parentEl)
       let style = window.getComputedStyle(this.parentEl)
       this.parentOverflowX = style.getPropertyValue('overflowX')
       this.parentOverflowY = style.getPropertyValue('overflowY')
